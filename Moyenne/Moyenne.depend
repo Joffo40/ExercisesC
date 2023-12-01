@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1701445342 source:/home/joffo/Documents/ExercisesC/Moyenne/main.c
+	<stdio.h>
+	<stdlib.h>
+
