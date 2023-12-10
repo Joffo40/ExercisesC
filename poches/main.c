@@ -192,6 +192,7 @@ int calculateBiggestVolumLake(int table[],int dimTable,int tableExtremaNeg[],int
                 incrementRight++;
             }
 
+
         }
         if(volume>volumeMax)
         {
