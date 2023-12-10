@@ -4,7 +4,7 @@
 #define MAX(i, j) (((i) > (j)) ? (i) : (j))
 
 void extremaAbscissNeg(int table[],int dimTable,int tableExtremaNeg[],int* dimTableExtremaNegptr);
-//int calculateBiggestVolumLake(int table[],int dimTable,int tableExtremaNeg[],int* dimTableExtremaptr);
+int calculateBiggestVolumLake(int table[],int dimTable,int tableExtremaNeg[],int* dimTableExtremaNegptr,int tableExtremaPos[],int* dimTableExtremaPosptr);
 void extremaAbscissPos(int table[],int dimTable,int tableExtremaPos[],int* dimTableExtremaPosptr);
 
 int main()
@@ -29,9 +29,9 @@ int variable =0;
 
 
 //scanf("%d", &variable);
-    //volumeMax=calculateBiggestVolumLake(table,dimTable,tableExtrema,dimTableExtremaNegptr);
+    volumeMax=calculateBiggestVolumLake(table,dimTable,tableExtremaNeg, dimTableExtremaNegptr,tableExtremaPos, dimTableExtremaPosptr);
 
-printf("%d", volumeMax);
+//printf("%d", volumeMax);
     printf("Le volume maximum est egal à %d.\n",volumeMax);
     //scanf("%d", &variable);
     return 0;
@@ -70,7 +70,7 @@ void extremaAbscissNeg(int table[],int dimTable,int tableExtremaNeg[],int* dimTa
     for(j=1;j<dimTable-1;j++) //determination des minimas
 
     {
-        //scanf("%d", &variable);
+//scanf("%d", &variable);
         //printf("%d ", j);
         int boolCondition = ((table[j-1])>(table[j])) && ((table[j])<(table[j+1]));
         if (boolCondition)
@@ -80,8 +80,8 @@ void extremaAbscissNeg(int table[],int dimTable,int tableExtremaNeg[],int* dimTa
             //scanf("%d", &variable);
 
             tableExtremaNeg[increment]= j;
-
-            printf("%d \n", tableExtremaNeg[increment]);
+            //scanf("%d",&variable);
+            //printf("%d \n", tableExtremaNeg[increment]);
             increment++;
 
         }
@@ -133,7 +133,6 @@ void extremaAbscissPos(int table[],int dimTable,int tableExtremaPos[],int* dimTa
     for(j=1;j<dimTable-1;j++) //determination des MAXIMUMS
 
     {
-        //scanf("%d", &variable);
         //printf("%d ", j);
         int boolCondition = ((table[j-1])<(table[j])) && ((table[j])>(table[j+1]));
         if (boolCondition)
@@ -144,7 +143,7 @@ void extremaAbscissPos(int table[],int dimTable,int tableExtremaPos[],int* dimTa
 
             tableExtremaPos[increment]= j;
 
-            printf("%d \n", tableExtremaPos[increment]);
+            //printf("%d \n", tableExtremaPos[increment]);
             increment++;
 
         }
@@ -160,22 +159,47 @@ void extremaAbscissPos(int table[],int dimTable,int tableExtremaPos[],int* dimTa
 
 
 }
-/*int calculateBiggestVolumLake(int table[],int dimTable,int tableExtrema[],int* dimTableExtremaptr)
+int calculateBiggestVolumLake(int table[],int dimTable,int tableExtremaNeg[],int* dimTableExtremaNegptr,int tableExtremaPos[],int* dimTableExtremaPosptr)
 {
     int volumeMax = 0;
     int volume = 0;
     int const cst =1;
     int variable =0;
-    printf("%d\n",*dimTableExtremaptr);
-    for(int i=0;i<*dimTableExtremaptr;i++)
+    int increment =0;
+    int incrementRight=0;
+    int incrementLeft=0;
+    //printf("%d\n",*dimTableExtremaNegptr);
+    for(int i=0;i<*dimTableExtremaNegptr;i++)
     {
+        printf("%d ",tableExtremaNeg[i]);
+
+        incrementRight=0;
+        incrementLeft=0;
 
 
+        while((table[tableExtremaNeg[i-incrementRight]-1]>table[tableExtremaNeg[i-incrementRight]]) && (table[tableExtremaNeg[i+incrementLeft]+1]>table[tableExtremaNeg[i+incrementLeft]]))
+        {
+            if((table[tableExtremaNeg[i-incrementRight]-1])>(table[tableExtremaNeg[i+incrementLeft]+1]))
+            {
+                printf("%d\n",table[tableExtremaNeg[i+incrementLeft]]);
+                volume = volume + (table[tableExtremaNeg[i+incrementLeft]+1]-table[tableExtremaNeg[i+incrementLeft]])* cst;
+                incrementLeft++;
+            }
+            else
+            {
+                printf("%d\n",table[tableExtremaNeg[i-incrementRight]]);
+                volume = volume + (table[tableExtremaNeg[i-incrementRight]-1]-table[tableExtremaNeg[i-incrementRight]]) * cst;
+                incrementRight++;
+            }
 
-        while(table[i-1]<)
+        }
+        if(volume>volumeMax)
+        {
+            volumeMax = volume;
 
-        volume = (MIN(table[i-1],table[i+1] )) * cst +
+        }
 
+    }
     return volumeMax;
 
 }
