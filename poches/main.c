@@ -165,41 +165,44 @@ int calculateBiggestVolumLake(int table[],int dimTable,int tableExtremaNeg[],int
     int volume = 0;
     int const cst =1;
     int variable =0;
-    int increment =0;
-    int incrementRight=0;
-    int incrementLeft=0;
-    //printf("%d\n",*dimTableExtremaNegptr);
-    for(int i=0;i<*dimTableExtremaNegptr;i++)
+    int j=0;
+
+    for(int i =  0; i=*dimTableExtremaPosptr-1; i++)
     {
-        printf("%d ",tableExtremaNeg[i]);
+        int j=1;
 
-        incrementRight=0;
-        incrementLeft=0;
-
-
-        while((table[tableExtremaNeg[i-incrementRight]-1]>table[tableExtremaNeg[i-incrementRight]]) && (table[tableExtremaNeg[i+incrementLeft]+1]>table[tableExtremaNeg[i+incrementLeft]]))
-        {
-            if((table[tableExtremaNeg[i-incrementRight]-1])>(table[tableExtremaNeg[i+incrementLeft]+1]))
+        printf("%d",table[tableExtremaPos[i]]);
+        if((table[tableExtremaPos[i]])<=(table[tableExtremaPos[i+1]]))
+        {scanf("%d", &variable);
+            while(table[tableExtremaPos[i]+j]< table[tableExtremaPos[i]])
             {
-                printf("%d\n",table[tableExtremaNeg[i+incrementLeft]]);
-                volume = volume + (table[tableExtremaNeg[i+incrementLeft]+1]-table[tableExtremaNeg[i+incrementLeft]])* cst;
-                incrementLeft++;
+
+                volume = cst * (table[tableExtremaPos[i]]-table[j]);
+                j++;
             }
-            else
+
+        }
+        else
+        {scanf("%d", &variable);
+        while(table[tableExtremaPos[i]+j]< table[tableExtremaPos[i+1]])
             {
-                printf("%d\n",table[tableExtremaNeg[i-incrementRight]]);
-                volume = volume + (table[tableExtremaNeg[i-incrementRight]-1]-table[tableExtremaNeg[i-incrementRight]]) * cst;
-                incrementRight++;
+
+                volume = cst * (table[tableExtremaPos[i]]-table[j]);
+                j++;
             }
 
 
         }
+
+
+
+
         if(volume>volumeMax)
         {
             volumeMax = volume;
 
         }
-
+        volume=0;
     }
     return volumeMax;
 
