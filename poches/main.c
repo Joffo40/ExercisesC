@@ -6,12 +6,21 @@
 void extremaAbscissNeg(int table[],int dimTable,int tableExtremaNeg[],int* dimTableExtremaNegptr);
 int calculateBiggestVolumLake(int table[],int dimTable,int tableExtremaNeg[],int* dimTableExtremaNegptr,int tableExtremaPos[],int* dimTableExtremaPosptr);
 void extremaAbscissPos(int table[],int dimTable,int tableExtremaPos[],int* dimTableExtremaPosptr);
+void nouveauTableaux(int table[],int dimTable, int usedTable[], int dimUsedTable);
 
 int main()
 {
-    int table[]={0,1,3,0,5,2,1,8,2,0};
+    int table[]={1,3,0,5,2,1,8,2};
     int dimTable=sizeof(table)/sizeof(table[0]);
-int variable =0;
+
+
+    int usedTable[10];
+
+
+
+    int dimUsedTable=sizeof(usedTable)/sizeof(usedTable[0]);
+    nouveauTableaux(table,dimTable,usedTable,dimUsedTable);  //fonction qui donne des extremités au tableau en creant un nouveau tableau avec 0 en valeuer
+
     int tableExtremaNeg[50];
     int dimTableExtremaNeg=sizeof(tableExtremaNeg)/sizeof(tableExtremaNeg[0]);
     int* dimTableExtremaNegptr = &dimTableExtremaNeg;
@@ -24,79 +33,19 @@ int variable =0;
 
     int volumeMax= 0;
 
-    extremaAbscissNeg(table,dimTable,tableExtremaNeg, dimTableExtremaNegptr);
-    extremaAbscissPos(table,dimTable,tableExtremaPos, dimTableExtremaPosptr);
+    //extremaAbscissNeg(usedTable,dimUsedTable,tableExtremaNeg, dimTableExtremaNegptr);  //fonction donnant les extrémas minimums ---inutile----
+    extremaAbscissPos(usedTable,dimUsedTable,tableExtremaPos, dimTableExtremaPosptr);       //fonction donnant les extrémas maximums
 
 
-//scanf("%d", &variable);
-    volumeMax=calculateBiggestVolumLake(table,dimTable,tableExtremaNeg, dimTableExtremaNegptr,tableExtremaPos, dimTableExtremaPosptr);
 
-//printf("%d", volumeMax);
-    printf("Le volume maximum est egal à %d.\n",volumeMax);
-    //scanf("%d", &variable);
+    volumeMax=calculateBiggestVolumLake(usedTable,dimUsedTable,tableExtremaNeg, dimTableExtremaNegptr,tableExtremaPos, dimTableExtremaPosptr);   // fonction calculant le volume max des lacs
+
+
+    printf("Le volume maximum est egal à %d.\n",volumeMax);  //affichage du volume max
+
     return 0;
 }
 
-void extremaAbscissNeg(int table[],int dimTable,int tableExtremaNeg[],int* dimTableExtremaNegptr)
-{
-    int n =0;
-    int firstLevel=0;
-    int lastLevel=0;
-    int increment =0;
-    int j =0;
-    int variable=0;
-
-    for(int i=0;i<dimTable;i++)
-    {
-
-        if(table[i]>firstLevel)     //Determination du niveau des bornes laterales
-        {
-            firstLevel=table[i];
-            lastLevel=table[i];
-
-
-        }
-
-
-    }
-
-    table[0]=firstLevel;
-    table[dimTable-1]=lastLevel;
-
-    //tableExtrema[0]=0;
-
-
-    //printf("%d",dimTable);
-    for(j=1;j<dimTable-1;j++) //determination des minimas
-
-    {
-//scanf("%d", &variable);
-        //printf("%d ", j);
-        int boolCondition = ((table[j-1])>(table[j])) && ((table[j])<(table[j+1]));
-        if (boolCondition)
-        {
-
-            //printf("%d %d %d\ %d \n", boolCondition, table[j],  increment, j);
-            //scanf("%d", &variable);
-
-            tableExtremaNeg[increment]= j;
-            //scanf("%d",&variable);
-            //printf("%d \n", tableExtremaNeg[increment]);
-            increment++;
-
-        }
-
-    }
-
-    *dimTableExtremaNegptr=increment;
-//scanf("%d", &variable);
-//
-//
-
-
-
-
-}
 void extremaAbscissPos(int table[],int dimTable,int tableExtremaPos[],int* dimTableExtremaPosptr)
 {
     int n =0;
@@ -106,10 +55,14 @@ void extremaAbscissPos(int table[],int dimTable,int tableExtremaPos[],int* dimTa
     int j =0;
     int variable=0;
 
-    for(int i=0;i<dimTable;i++)
+
+
+
+
+    for(int i=1;i<dimTable-1;i++)
     {
 
-        if(table[i]>firstLevel)     //Determination du niveau des bornes laterales
+        if(table[i]>firstLevel)     //Determination du niveau des bornes laterales -- maximums de toutes les valeurs
         {
             firstLevel=table[i];
             lastLevel=table[i];
@@ -119,41 +72,36 @@ void extremaAbscissPos(int table[],int dimTable,int tableExtremaPos[],int* dimTa
 
 
     }
-
-    table[0]=firstLevel;
+    table[0]=firstLevel; //affectation de la valeur maximale aux extrémités du tableau
     table[dimTable-1]=lastLevel;
 
+
     tableExtremaPos[0]=0;
-    tableExtremaPos[dimTable-1]=dimTable-1;
-
-    //printf("%d",dimTable);
 
 
 
-    for(j=1;j<dimTable-1;j++) //determination des MAXIMUMS
+    for(j=1;j<dimTable-1;j++) //determination des extremas MAXIMUMS
 
     {
-        //printf("%d ", j);
+
         int boolCondition = ((table[j-1])<(table[j])) && ((table[j])>(table[j+1]));
         if (boolCondition)
         {
 
-            //printf("%d %d %d\ %d \n", boolCondition, table[j],  increment, j);
-            //scanf("%d", &variable);
+
 
             tableExtremaPos[increment]= j;
 
-            //printf("%d \n", tableExtremaPos[increment]);
+
             increment++;
 
         }
 
     }
+    tableExtremaPos[dimTable-1]=dimTable-1;
 
-    *dimTableExtremaPosptr=increment;
-//scanf("%d", &variable);
-//
-//
+    *dimTableExtremaPosptr=increment+1;   //nouvelle dimension du tableau apres determination des extremats
+
 
 
 
@@ -164,30 +112,29 @@ int calculateBiggestVolumLake(int table[],int dimTable,int tableExtremaNeg[],int
     int volumeMax = 0;
     int volume = 0;
     int const cst =1;
-    int variable =0;
+
     int j=0;
 
-    for(int i =  0; i=*dimTableExtremaPosptr-1; i++)
+    for(int i =  0; i<*dimTableExtremaPosptr-1; i++)  // passage en revue des n-1 extremats positifs
     {
         int j=1;
 
-        printf("%d",table[tableExtremaPos[i]]);
-        if((table[tableExtremaPos[i]])<=(table[tableExtremaPos[i+1]]))
-        {scanf("%d", &variable);
-            while(table[tableExtremaPos[i]+j]< table[tableExtremaPos[i]])
+        if((table[tableExtremaPos[i]])<=(table[tableExtremaPos[i+1]]))    //determination du niveau maximum du lac
+        {
+            while((table[tableExtremaPos[i]+j])< (table[tableExtremaPos[i]]))   //pas à pas, on verifie que une colonne d'eau peut etre acumulée
             {
 
-                volume = cst * (table[tableExtremaPos[i]]-table[j]);
+                volume = volume + cst * (table[tableExtremaPos[i]]-table[tableExtremaPos[i]+j]);    //calcul de la colonne d'eau et ajout au volume d'eau deja calculé
                 j++;
             }
 
         }
         else
-        {scanf("%d", &variable);
-        while(table[tableExtremaPos[i]+j]< table[tableExtremaPos[i+1]])
+        {
+            while((table[tableExtremaPos[i]+j])< (table[tableExtremaPos[i+1]]))  //pas à pas, on verifie que une colonne d'eau peut etre acumulée
             {
 
-                volume = cst * (table[tableExtremaPos[i]]-table[j]);
+                volume =volume + cst * (table[tableExtremaPos[i+1]]-table[tableExtremaPos[i]+j]);       //calcul de la colonne d'eau et ajout au volume d'eau deja calculé
                 j++;
             }
 
@@ -197,7 +144,7 @@ int calculateBiggestVolumLake(int table[],int dimTable,int tableExtremaNeg[],int
 
 
 
-        if(volume>volumeMax)
+        if(volume>volumeMax)    //Determination du volume du lac maximum
         {
             volumeMax = volume;
 
@@ -207,3 +154,24 @@ int calculateBiggestVolumLake(int table[],int dimTable,int tableExtremaNeg[],int
     return volumeMax;
 
 }
+void nouveauTableaux(int table[],int dimTable, int usedTable[], int dimUsedTable)  //fonction qui donne des extremités au tableau en creant un nouveau tableau avec 0 en valeuer
+{
+
+    usedTable[0]=0;
+
+    for(int i=0;i<dimTable; i++)
+    {
+        usedTable[i+1]=table[i];
+
+    }
+
+    usedTable[dimUsedTable-1]=0;
+
+
+
+
+
+
+
+}
+
