@@ -8,8 +8,8 @@ int main()
     char ligne[100];
     int n = 0;
     char stringArray[800][100];
-
-
+    int y = 0;
+    int debug=0;
 
     FILE *fptr;
     fptr = fopen("texte.txt", "r");
@@ -26,12 +26,16 @@ int main()
     }
 
 //affichage
-    for (int i=0;i<n-1;i++)
+    for (int i=0;i<n;i++)
     {
-        for(int y=0;y<100;y++)
+        y=0;
+        while(stringArray[i][y] != '\0')
         {
             printf("%c",stringArray[i][y]);
+            //scanf("%d", &debug);
+            y++;
         }
+        //scanf("%d", &debug);
         printf("\n");
     }
 
