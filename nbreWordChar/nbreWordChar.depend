@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1703760337 source:/home/joffo/Documents/ExercisesC/nbreWordChar/main.c
+	<stdio.h>
+	<stdlib.h>
+
